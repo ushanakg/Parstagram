@@ -86,7 +86,7 @@ public class ComposeFragment extends Fragment {
             }
         });
 
-        composeBinding.btnTakePhoto.setOnClickListener(new View.OnClickListener() {
+        composeBinding.ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchCamera();

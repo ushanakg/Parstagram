@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:layout_width="match_parent"
@@ -7,6 +8,36 @@
         android:orientation="vertical"
         tools:context=".fragments.ComposeFragment">
 
+        <ImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@+id/btnTakePhoto"
+            android:layout_alignStart="@+id/etDescription"
+            android:layout_alignEnd="@+id/etDescription"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/camera_shadow_fill"
+            tools:layout_editor_absoluteX="87dp"
+            tools:layout_editor_absoluteY="205dp"
+            tools:srcCompat="@drawable/camera_shadow_fill" />
+
+        <!--<Button
+            android:id="@+id/btnTakePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etDescription"
+            android:layout_alignStart="@+id/etDescription"
+            android:layout_alignEnd="@+id/etDescription"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="TAKE PHOTO"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="4dp"
+            tools:layout_editor_absoluteY="520dp" />-->
 
         <EditText
             android:id="@+id/etDescription"
@@ -35,40 +66,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:backgroundTint="#4C68D7"
             android:text="SUBMIT"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             tools:layout_editor_absoluteX="166dp"
             tools:layout_editor_absoluteY="98dp" />
-
-        <ImageView
-            android:id="@+id/ivPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:layout_below="@+id/btnTakePhoto"
-            android:layout_alignStart="@+id/etDescription"
-            android:layout_alignEnd="@+id/etDescription"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:adjustViewBounds="true"
-            tools:layout_editor_absoluteX="87dp"
-            tools:layout_editor_absoluteY="205dp"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-        <Button
-            android:id="@+id/btnTakePhoto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/etDescription"
-            android:layout_alignStart="@+id/etDescription"
-            android:layout_alignEnd="@+id/etDescription"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="TAKE PHOTO"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="4dp"
-            tools:layout_editor_absoluteY="520dp" />
 
     </LinearLayout>
 </layout>

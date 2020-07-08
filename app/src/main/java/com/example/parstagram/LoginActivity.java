@@ -13,6 +13,7 @@ import com.example.parstagram.databinding.ActivityLoginBinding;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,6 +40,15 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(username, password);
             }
         });
+
+        loginBinding.btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = loginBinding.etUsername.getText().toString();
+                String password = loginBinding.etPassword.getText().toString();
+                signupUser(username, password);
+            }
+        });
     }
 
     // authenticates the username and password --> navigates to the main activity
@@ -53,6 +63,24 @@ public class LoginActivity extends AppCompatActivity {
 
                 goMainActivity();
                 Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void signupUser(final String username, final String password) {
+        // Create the ParseUser
+        ParseUser user = new ParseUser();
+        // Set core properties
+        user.setUsername(username);
+        user.setPassword(password);
+        // Invoke signUpInBackground
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Sign up failed", e);
+                } else {
+                    loginUser(username, password);
+                }
             }
         });
     }
