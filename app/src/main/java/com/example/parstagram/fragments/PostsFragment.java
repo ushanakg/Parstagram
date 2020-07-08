@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,30 +47,40 @@ public class PostsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-        allPosts = new ArrayList<>();
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        adapter = new PostsAdapter(getContext(), allPosts);
-
-
         // Inflate the layout for this fragment
         postsBinding = FragmentPostsBinding.inflate(inflater, container, false);
-        View view = postsBinding.getRoot();
+        return postsBinding.getRoot();
 
-        postsBinding.rvPosts.setAdapter(adapter);
-        postsBinding.rvPosts.setLayoutManager(llm);
-        //postsBinding.tvTest.setText("New Text");
-        queryPosts();
-
-        return view;
-
-        //return inflater.inflate(R.layout.fragment_post, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        allPosts = new ArrayList<>();
+        adapter = new PostsAdapter(getContext(), allPosts);
+
+        postsBinding.rvPosts.setAdapter(adapter);
+        postsBinding.rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        postsBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshTimeline();
+            }
+        });
+        // Configure the refreshing colors
+        postsBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        queryPosts();
+    }
+
+    private void refreshTimeline() {
+        queryPosts();
+        postsBinding.swipeContainer.setRefreshing(false);
     }
 
     protected void queryPosts() {
@@ -86,13 +97,10 @@ public class PostsFragment extends Fragment {
                 }
 
                 for (Post p : posts) {
-                    // to be filled
-                    Log.i(TAG, p.getDescription());
+                    //Log.i(TAG, p.getDescription());
                 }
 
-                //postsBinding.rvPosts.setAdapter(adapter);
-                allPosts.addAll(posts);
-                adapter.notifyDataSetChanged();
+                adapter.addAll(posts);
             }
         });
     }
