@@ -53,10 +53,24 @@ public class PostFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+        allPosts = new ArrayList<>();
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        adapter = new PostsAdapter(getContext(), allPosts);
+
+
         // Inflate the layout for this fragment
         postsBinding = FragmentPostBinding.inflate(inflater, container, false);
         View view = postsBinding.getRoot();
+
+        postsBinding.rvPosts.setAdapter(adapter);
+        postsBinding.rvPosts.setLayoutManager(llm);
+        //postsBinding.tvTest.setText("New Text");
+        queryPosts();
+
         return view;
+
         //return inflater.inflate(R.layout.fragment_post, container, false);
     }
 
@@ -64,14 +78,6 @@ public class PostFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        allPosts = new ArrayList<>();
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        adapter = new PostsAdapter(getContext(), allPosts);
-
-        postsBinding.rvPosts.setAdapter(adapter);
-        postsBinding.rvPosts.setLayoutManager(llm);
-
-        queryPosts();
     }
 
     private void queryPosts() {
@@ -90,6 +96,7 @@ public class PostFragment extends Fragment {
                     Log.i(TAG, p.getDescription());
                 }
 
+                //postsBinding.rvPosts.setAdapter(adapter);
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
             }

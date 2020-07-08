@@ -20,7 +20,6 @@ import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
-    private FragmentPostBinding postsBinding;
     private Context context;
     List<Post> posts;
 
@@ -34,8 +33,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        postsBinding = FragmentPostBinding.inflate(LayoutInflater.from(context), parent, false);
-        return new ViewHolder(postsBinding.getRoot());
+        ItemPostBinding binding = ItemPostBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -53,11 +52,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         ItemPostBinding holderBinding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
+        public ViewHolder(@NonNull ItemPostBinding binding) {
+            super(binding.getRoot());
 
-            holderBinding = ItemPostBinding.inflate(LayoutInflater.from(context));
-            //holderBinding = ItemPostBinding.bind(itemView);
+            holderBinding = binding;
         }
 
         public void bind(Post post) {
