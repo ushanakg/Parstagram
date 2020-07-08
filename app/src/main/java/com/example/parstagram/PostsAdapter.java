@@ -3,6 +3,7 @@ package com.example.parstagram;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -56,7 +57,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ItemPostBinding holderBinding;
 
@@ -75,6 +76,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             holderBinding.tvDescription.setText(post.getDescription());
             holderBinding.tvUsername.setText(post.getUser().getUsername());
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            // open detailed post activity
         }
     }
 }
