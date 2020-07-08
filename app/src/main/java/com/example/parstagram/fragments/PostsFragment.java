@@ -15,8 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.parstagram.Post;
 import com.example.parstagram.PostsAdapter;
-import com.example.parstagram.R;
-import com.example.parstagram.databinding.FragmentPostBinding;
+import com.example.parstagram.databinding.FragmentPostsBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -24,24 +23,17 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PostFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PostFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class PostsFragment extends Fragment {
 
 
     private static final String TAG = "PostFragment";
-    private FragmentPostBinding postsBinding;
+    private FragmentPostsBinding postsBinding;
     protected PostsAdapter adapter;
-    private List<Post> allPosts;
+    protected List<Post> allPosts;
 
 
-    public PostFragment() {
+    public PostsFragment() {
         // Required empty public constructor
     }
 
@@ -61,7 +53,7 @@ public class PostFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        postsBinding = FragmentPostBinding.inflate(inflater, container, false);
+        postsBinding = FragmentPostsBinding.inflate(inflater, container, false);
         View view = postsBinding.getRoot();
 
         postsBinding.rvPosts.setAdapter(adapter);
@@ -80,9 +72,11 @@ public class PostFragment extends Fragment {
 
     }
 
-    private void queryPosts() {
+    protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
+        query.setLimit(20);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {

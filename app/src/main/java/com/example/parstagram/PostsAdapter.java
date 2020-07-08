@@ -1,18 +1,14 @@
 package com.example.parstagram;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.databinding.FragmentPostBinding;
 import com.example.parstagram.databinding.ItemPostBinding;
 import com.parse.ParseFile;
 
