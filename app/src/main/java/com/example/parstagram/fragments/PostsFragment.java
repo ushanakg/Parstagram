@@ -34,7 +34,7 @@ public class PostsFragment extends Fragment {
     protected List<Post> allPosts;
 
     protected PostsAdapter adapter;
-    private LinearLayoutManager llm;
+    private LinearLayoutManager layoutManager;
     private EndlessRecyclerViewScrollListener scrollListener;
 
     public PostsFragment() {
@@ -65,8 +65,8 @@ public class PostsFragment extends Fragment {
         adapter = new PostsAdapter(getContext(), allPosts);
         postsBinding.rvPosts.setAdapter(adapter);
 
-        llm = new LinearLayoutManager(getContext());
-        postsBinding.rvPosts.setLayoutManager(llm);
+        layoutManager = new LinearLayoutManager(getContext());
+        postsBinding.rvPosts.setLayoutManager(layoutManager);
 
         postsBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -80,7 +80,7 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(llm) {
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 queryPosts(page);
