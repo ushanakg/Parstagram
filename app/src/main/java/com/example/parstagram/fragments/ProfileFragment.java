@@ -15,7 +15,7 @@ public class ProfileFragment extends PostsFragment {
     private static final String TAG = "ProfileFragment";
 
     @Override
-    protected void queryPosts() {
+    protected void queryPosts(int page) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
@@ -27,11 +27,6 @@ public class ProfileFragment extends PostsFragment {
                 if (e != null) {
                     Log.e(TAG, "issue with getting posts", e);
                     return;
-                }
-
-                for (Post p : posts) {
-                    // to be filled
-                    Log.i(TAG, p.getDescription());
                 }
 
                 //postsBinding.rvPosts.setAdapter(adapter);

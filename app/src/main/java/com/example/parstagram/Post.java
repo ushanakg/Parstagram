@@ -73,24 +73,7 @@ public class Post extends ParseObject {
     public String getRelativeTimeAgo() {
         long dateMillis = getCreatedAt().getTime();
 
-        String[] relativeTimes = new String[5];
-
-        relativeTimes[0] = DateUtils.getRelativeTimeSpanString (dateMillis, System.currentTimeMillis(), DateUtils.WEEK_IN_MILLIS).toString();
-        relativeTimes[1] = DateUtils.getRelativeTimeSpanString (dateMillis, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS).toString();
-        relativeTimes[2] = DateUtils.getRelativeTimeSpanString (dateMillis, System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS).toString();
-        relativeTimes[3] = DateUtils.getRelativeTimeSpanString (dateMillis, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS).toString();
-        relativeTimes[4] = DateUtils.getRelativeTimeSpanString (dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
-
-        for (int i = 0; i < relativeTimes.length; i++) {
-            int num = Integer.parseInt(relativeTimes[i].split(" ")[0]);
-            if (i == 0 && num > 1) {
-                return getDatePosted();
-            }
-            if (num > 0) {
-                return relativeTimes[i];
-            }
-        }
-        return relativeTimes[4];
+        return DateUtils.getRelativeTimeSpanString (dateMillis, System.currentTimeMillis(),0L).toString();
     }
 
 }

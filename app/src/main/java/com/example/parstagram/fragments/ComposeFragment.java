@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.parstagram.MainActivity;
@@ -156,6 +157,8 @@ public class ComposeFragment extends Fragment {
         post.setUser(user);
         post.setImage(new ParseFile(photoFile));
 
+        composeBinding.pbLoading.setVisibility(ProgressBar.VISIBLE);
+
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -166,6 +169,7 @@ public class ComposeFragment extends Fragment {
 
                 Toast.makeText(getContext(), "Posted!", Toast.LENGTH_SHORT).show();
                 // clear textbox as visual feedback for user
+                composeBinding.pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 composeBinding.etDescription.setText("");
                 composeBinding.ivPhoto.setImageResource(0);
             }

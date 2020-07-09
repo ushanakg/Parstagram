@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.parstagram.EndlessRecyclerViewScrollListener;
 import com.example.parstagram.Post;
 import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.databinding.FragmentPostsBinding;
@@ -27,12 +28,14 @@ import java.util.List;
 
 public class PostsFragment extends Fragment {
 
-
     private static final String TAG = "PostFragment";
     private FragmentPostsBinding postsBinding;
-    protected PostsAdapter adapter;
+
     protected List<Post> allPosts;
 
+    protected PostsAdapter adapter;
+    private LinearLayoutManager llm;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -58,10 +61,12 @@ public class PostsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
 
+        adapter = new PostsAdapter(getContext(), allPosts);
         postsBinding.rvPosts.setAdapter(adapter);
-        postsBinding.rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        llm = new LinearLayoutManager(getContext());
+        postsBinding.rvPosts.setLayoutManager(llm);
 
         postsBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -75,20 +80,29 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        queryPosts();
+        scrollListener = new EndlessRecyclerViewScrollListener(llm) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                queryPosts(page);
+            }
+        };
+        postsBinding.rvPosts.addOnScrollListener(scrollListener);
+
+        queryPosts(0);
     }
 
     private void refreshTimeline() {
         adapter.clear();
-        queryPosts();
+        queryPosts(0);
         postsBinding.swipeContainer.setRefreshing(false);
     }
 
-    protected void queryPosts() {
+    protected void queryPosts(int page) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.include(Post.KEY_CREATED_AT);
         query.setLimit(20);
+        query.setSkip(page * 20);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override

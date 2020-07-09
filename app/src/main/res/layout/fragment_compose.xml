@@ -73,5 +73,10 @@
             tools:layout_editor_absoluteX="166dp"
             tools:layout_editor_absoluteY="98dp" />
 
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>
