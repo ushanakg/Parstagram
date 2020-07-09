@@ -79,6 +79,7 @@ public class PostsFragment extends Fragment {
     }
 
     private void refreshTimeline() {
+        adapter.clear();
         queryPosts();
         postsBinding.swipeContainer.setRefreshing(false);
     }
@@ -86,6 +87,7 @@ public class PostsFragment extends Fragment {
     protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
+        query.include(Post.KEY_CREATED_AT);
         query.setLimit(20);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
@@ -94,10 +96,6 @@ public class PostsFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "issue with getting posts", e);
                     return;
-                }
-
-                for (Post p : posts) {
-                    //Log.i(TAG, p.getDescription());
                 }
 
                 adapter.addAll(posts);

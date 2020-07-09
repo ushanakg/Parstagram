@@ -2,6 +2,7 @@ package com.example.parstagram;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +60,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        public static final String POST_DETAILS_KEY = "post";
         ItemPostBinding holderBinding;
 
         public ViewHolder(@NonNull ItemPostBinding binding) {
             super(binding.getRoot());
 
             holderBinding = binding;
+            binding.getRoot().setOnClickListener(this);
         }
 
         public void bind(Post post) {
@@ -75,12 +78,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
             holderBinding.tvDescription.setText(post.getDescription());
             holderBinding.tvUsername.setText(post.getUser().getUsername());
+            holderBinding.tvRelativeTimeAgo.setText(post.getRelativeTimeAgo());
 
         }
 
         @Override
         public void onClick(View view) {
             // open detailed post activity
+            Intent i = new Intent(context, PostDetailsActivity.class);
+            i.putExtra(POST_DETAILS_KEY, posts.get(getAdapterPosition()));
+            context.startActivity(i);
         }
     }
 }

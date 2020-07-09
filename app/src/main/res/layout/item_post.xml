@@ -39,7 +39,7 @@
             android:id="@+id/llIcons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="6dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:orientation="horizontal">
@@ -48,17 +48,19 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="4dp"
-                android:src="@drawable/ufi_heart"/>
+                android:src="@drawable/ufi_heart" />
+
             <ImageView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/ufi_comment"/>
+                android:src="@drawable/ufi_comment" />
+
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="4dp"
-                android:src="@drawable/ufi_new_direct"/>
+                android:src="@drawable/ufi_new_direct" />
         </LinearLayout>
 
         <TextView
@@ -68,14 +70,24 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="2dp"
             android:maxLines="2"
-            android:padding="4dp"
-            android:text=" This is my caption! Let's test what happens when I have a really long caption on my photo. Will it show up as a preview or get abruptly cut off?"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="This is my caption! Let's test what happens when I have a really long caption on my photo. Will it show up as a preview or get abruptly cut off?"
             android:textColor="#000000"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="192dp"
             tools:layout_editor_absoluteY="415dp" />
+
+        <TextView
+            android:id="@+id/tvRelativeTimeAgo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            tools:text="4 days ago" />
     </LinearLayout>
 
 </layout>
