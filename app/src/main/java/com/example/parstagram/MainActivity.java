@@ -16,6 +16,7 @@ import com.example.parstagram.fragments.ComposeFragment;
 import com.example.parstagram.fragments.PostsFragment;
 import com.example.parstagram.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private ActivityMainBinding mainBinding;
+    public BottomNavigationView bnm;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
 
     private Menu menu;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         action_home = menu.findItem(R.id.action_home);
         action_profile = menu.findItem(R.id.action_profile);
 
+        bnm = mainBinding.bottomNavigation;
         mainBinding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                         action_profile.setIcon(R.drawable.instagram_user_filled_24);
-                        fragment = new ProfileFragment();
+                        fragment = ProfileFragment.newInstance(ParseUser.getCurrentUser());
                         break;
                     case R.id.action_home:
                     default:
@@ -81,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         action_profile.setIcon(getDrawable(R.drawable.instagram_user_outline_24));
         action_compose.setIcon(R.drawable.instagram_new_post_outline_24);
         action_home.setIcon(R.drawable.instagram_home_outline_24);
-
     }
 
     @Override

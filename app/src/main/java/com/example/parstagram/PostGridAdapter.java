@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.databinding.ItemPostBinding;
 import com.example.parstagram.databinding.ItemPostGridBinding;
+import com.example.parstagram.fragments.DetailsFragment;
 import com.parse.ParseFile;
 
 import java.util.List;
@@ -83,10 +84,10 @@ public class PostGridAdapter extends RecyclerView.Adapter<PostGridAdapter.GridVi
 
         @Override
         public void onClick(View view) {
-            // open detailed post activity
-            Intent i = new Intent(context, PostDetailsActivity.class);
-            i.putExtra(POST_DETAILS_KEY, posts.get(getAdapterPosition()));
-            context.startActivity(i);
+            // open detailed fragment
+            FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+            DetailsFragment fragment = DetailsFragment.newInstance(posts.get(getAdapterPosition()));
+            fm.beginTransaction().replace(R.id.flContainer, fragment, "DetailsFragment").commit();
         }
     }
 }

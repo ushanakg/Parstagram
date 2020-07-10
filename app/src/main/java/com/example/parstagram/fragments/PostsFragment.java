@@ -116,4 +116,9 @@ public class PostsFragment extends Fragment {
             }
         });
     }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        postsBinding = null;
+    }
 }

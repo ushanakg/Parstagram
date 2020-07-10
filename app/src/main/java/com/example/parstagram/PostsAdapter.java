@@ -1,6 +1,7 @@
 package com.example.parstagram;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram.databinding.ItemPostBinding;
+import com.example.parstagram.fragments.DetailsFragment;
 import com.parse.ParseFile;
 
 import java.util.List;
@@ -77,10 +80,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(holderBinding.ivPhoto);
             }
-            Glide.with(context).clear(holderBinding.ivProfile);
             ParseFile profile = post.getUser().getParseFile("profilePhoto");
             if (profile != null) {
                 Glide.with(context).load(profile.getUrl()).transform(new RoundedCorners(90)).into(holderBinding.ivProfile);
+            } else {
+                Glide.with(context).load(R.drawable.ic_baseline_person_24).into(holderBinding.ivProfile);
             }
             holderBinding.tvDescription.setText(post.getDescription());
             holderBinding.tvUsername.setText(post.getUser().getUsername());
@@ -90,10 +94,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            // open detailed post activity
-            Intent i = new Intent(context, PostDetailsActivity.class);
-            i.putExtra(POST_DETAILS_KEY, posts.get(getAdapterPosition()));
-            context.startActivity(i);
+            // open detailed fragment
+            FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+            DetailsFragment fragment = DetailsFragment.newInstance(posts.get(getAdapterPosition()));
+            fm.beginTransaction().replace(R.id.flContainer, fragment, "DetailsFragment").commit();
+
         }
     }
 }
