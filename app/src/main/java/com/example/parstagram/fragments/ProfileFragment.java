@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -131,6 +132,7 @@ public class ProfileFragment extends Fragment {
         loadProfilePic();
         profileBinding.tvUsername.setText(user.getUsername());
 
+        profileBinding.pbLoading.setVisibility(ProgressBar.VISIBLE);
         // fill in all the posts
         queryPosts(0, user, adapter);
     }
@@ -217,7 +219,7 @@ public class ProfileFragment extends Fragment {
         profileBinding.swipeContainer.setRefreshing(false);
     }
 
-    public static void queryPosts(int page, ParseUser user, final PostGridAdapter adapter) {
+    public void queryPosts(int page, ParseUser user, final PostGridAdapter adapter) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.whereEqualTo(Post.KEY_USER, user);
@@ -231,7 +233,7 @@ public class ProfileFragment extends Fragment {
                     Log.e(TAG, "issue with getting posts", e);
                     return;
                 }
-
+                profileBinding.pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 adapter.addAll(posts);
             }
         });

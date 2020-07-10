@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.parstagram.EndlessRecyclerViewScrollListener;
 import com.example.parstagram.Post;
@@ -88,6 +89,7 @@ public class PostsFragment extends Fragment {
         };
         postsBinding.rvPosts.addOnScrollListener(scrollListener);
 
+        postsBinding.pbLoading.setVisibility(ProgressBar.VISIBLE);
         queryPosts(0);
     }
 
@@ -111,7 +113,7 @@ public class PostsFragment extends Fragment {
                     Log.e(TAG, "issue with getting posts", e);
                     return;
                 }
-
+                postsBinding.pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 adapter.addAll(posts);
             }
         });

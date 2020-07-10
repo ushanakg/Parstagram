@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".GridActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/llUser"
@@ -38,6 +37,14 @@
             tools:layout_editor_absoluteY="126dp"
             tools:text="ushanakg" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/swipeContainer"
+        android:layout_marginTop="8dp"
+        android:visibility="invisible" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
