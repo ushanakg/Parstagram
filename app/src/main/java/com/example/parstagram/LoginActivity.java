@@ -49,6 +49,9 @@ public class LoginActivity extends AppCompatActivity {
                 signupUser(username, password);
             }
         });
+
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     // authenticates the username and password --> navigates to the main activity

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.example.parstagram.databinding.ActivityPostDetailsBinding;
@@ -44,6 +45,15 @@ public class PostDetailsActivity extends AppCompatActivity {
         detailsBinding.tvDescription.setText(post.getDescription());
         detailsBinding.tvUsername.setText(post.getUser().getUsername());
         detailsBinding.tvTimestamp.setText(post.getDatePosted() + " at " + post.getTimePosted());
+
+        detailsBinding.llUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PostDetailsActivity.this, GridActivity.class);
+                i.putExtra(PostsAdapter.ViewHolder.POST_DETAILS_KEY, post);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -71,4 +81,5 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         return true;
     }
+
 }
