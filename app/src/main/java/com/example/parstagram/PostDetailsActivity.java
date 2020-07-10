@@ -52,6 +52,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                 Intent i = new Intent(PostDetailsActivity.this, GridActivity.class);
                 i.putExtra(PostsAdapter.ViewHolder.POST_DETAILS_KEY, post);
                 startActivity(i);
+                finish();
             }
         });
     }

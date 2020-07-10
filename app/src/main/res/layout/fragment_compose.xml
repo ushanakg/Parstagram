@@ -19,10 +19,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/camera_shadow_fill"
+            app:srcCompat="@android:drawable/ic_menu_gallery"
             tools:layout_editor_absoluteX="87dp"
-            tools:layout_editor_absoluteY="205dp"
-            tools:srcCompat="@drawable/camera_shadow_fill" />
+            tools:layout_editor_absoluteY="205dp" />
 
         <!--<Button
             android:id="@+id/btnTakePhoto"
@@ -38,6 +37,23 @@
             android:textSize="20sp"
             tools:layout_editor_absoluteX="4dp"
             tools:layout_editor_absoluteY="520dp" />-->
+
+        <Button
+            android:id="@+id/btnTakePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivPhoto"
+            android:layout_alignStart="@+id/etDescription"
+            android:layout_alignEnd="@+id/etDescription"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#838383"
+            android:text="Take Photo"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="166dp"
+            tools:layout_editor_absoluteY="98dp" />
 
         <EditText
             android:id="@+id/etDescription"
