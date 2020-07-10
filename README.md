@@ -2,7 +2,7 @@
 
 **Parstagram** is a photo sharing app using Parse as its backend.
 
-Time spent: **X** hours spent in total
+Time spent: **24** hours spent in total
 
 ## User Stories
 
@@ -30,17 +30,18 @@ The following **stretch** features are implemented:
   - [x] Display the profile photo with each post
   - [x] Tapping on a post's username or profile photo goes to that user's profile page
   - [x] User Profile shows posts in a grid view
-- [ ] User can comment on a post and see all comments for each post in the post details screen.
+- [x] User can comment on a post and see all comments for each post in the post details screen.
 - [x] User can like a post and see number of likes for each post in the post details screen.
 
 The following **additional** features are implemented:
 
 - [x] Show indeterminate progress bars in the timeline and profile view as posts load.
+- [x] Add visual feedback when user clicks to change their profile photo
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Ways to aesthetically and sensibly accomodate photos with more severe proportions. I attempted to do this with a NestedScrollView to also accomodate comments in a RecyclerView but it didn't work. 
+2. Better ways to implement likes so that photos with thousands and thousands of likes do not slow my app down (my current implementation involves running through an ArrayList).
 
 ## Video Walkthrough
 
@@ -59,7 +60,7 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+As mentioned above, I wasn't able to put a RecyclerView in a NestedScrollView so I couldn't get the exact layout I wanted with photos and their comments. In addition, learning how to launch fragments from other fragments RecyclerView adapter, but in the end the TA's and instructor were able to pinpoint my problem and I learned from that experience and had no further issues with View Binding.
 
 ## License
 
