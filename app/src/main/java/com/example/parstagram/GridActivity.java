@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram.databinding.ActivityGridBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -71,10 +72,11 @@ public class GridActivity extends AppCompatActivity {
         gridBinding.rvPosts.addOnScrollListener(scrollListener);
 
         //populate data into view
-        /*ParseFile profile = postClicked.getProfile();
+        Glide.with(this).clear(gridBinding.ivProfile);
+        ParseFile profile = user.getParseFile("profilePhoto");
         if (profile != null) {
-            Glide.with(this).load(profile.getUrl()).into(gridBinding.ivProfile);
-        }*/
+            Glide.with(this).load(profile.getUrl()).transform(new RoundedCorners(150)).into(gridBinding.ivProfile);
+        }
         gridBinding.tvUsername.setText(user.getUsername());
 
         // fill in all the posts

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram.databinding.ItemPostBinding;
 import com.parse.ParseFile;
 
@@ -76,7 +77,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(holderBinding.ivPhoto);
             }
-
+            Glide.with(context).clear(holderBinding.ivProfile);
+            ParseFile profile = post.getUser().getParseFile("profilePhoto");
+            if (profile != null) {
+                Glide.with(context).load(profile.getUrl()).transform(new RoundedCorners(90)).into(holderBinding.ivProfile);
+            }
             holderBinding.tvDescription.setText(post.getDescription());
             holderBinding.tvUsername.setText(post.getUser().getUsername());
             holderBinding.tvRelativeTimeAgo.setText(post.getRelativeTimeAgo());

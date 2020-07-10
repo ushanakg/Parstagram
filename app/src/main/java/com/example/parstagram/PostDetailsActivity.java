@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram.databinding.ActivityPostDetailsBinding;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -41,7 +42,10 @@ public class PostDetailsActivity extends AppCompatActivity {
         if (image != null) {
             Glide.with(this).load(image.getUrl()).into(detailsBinding.ivPhoto);
         }
-
+        ParseFile profile = post.getUser().getParseFile("profilePhoto");
+        if (profile != null) {
+            Glide.with(this).load(profile.getUrl()).transform(new RoundedCorners(90)).into(detailsBinding.ivProfile);
+        }
         detailsBinding.tvDescription.setText(post.getDescription());
         detailsBinding.tvUsername.setText(post.getUser().getUsername());
         detailsBinding.tvTimestamp.setText(post.getDatePosted() + " at " + post.getTimePosted());

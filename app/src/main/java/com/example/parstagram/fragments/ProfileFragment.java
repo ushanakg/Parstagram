@@ -13,12 +13,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram.EndlessRecyclerViewScrollListener;
 import com.example.parstagram.GridActivity;
 import com.example.parstagram.Post;
 import com.example.parstagram.PostGridAdapter;
 import com.example.parstagram.databinding.ActivityGridBinding;
 
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -74,10 +77,10 @@ public class ProfileFragment extends Fragment {
         gridBinding.rvPosts.addOnScrollListener(scrollListener);
 
         //populate data into view
-        /*ParseFile profile = postClicked.getProfile();
+        ParseFile profile = user.getParseFile("profilePhoto");
         if (profile != null) {
-            Glide.with(this).load(profile.getUrl()).into(gridBinding.ivProfile);
-        }*/
+            Glide.with(getContext()).load(profile.getUrl()).into(gridBinding.ivProfile);
+        }
         gridBinding.tvUsername.setText(user.getUsername());
 
         // fill in all the posts
