@@ -84,7 +84,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (profile != null) {
                 Glide.with(context).load(profile.getUrl()).transform(new RoundedCorners(90)).into(holderBinding.ivProfile);
             } else {
-                Glide.with(context).load(R.drawable.ic_baseline_person_24).into(holderBinding.ivProfile);
+                holderBinding.ivProfile.setImageResource(R.drawable.ic_baseline_person_24);
             }
             holderBinding.tvDescription.setText(post.getDescription());
             holderBinding.tvUsername.setText(post.getUser().getUsername());
