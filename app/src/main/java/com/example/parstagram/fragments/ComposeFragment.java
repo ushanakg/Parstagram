@@ -42,7 +42,7 @@ public class ComposeFragment extends Fragment {
     private static final String TAG = "ComposeFragment";
     private FragmentComposeBinding composeBinding;
 
-    public final static int PICK_PHOTO_CODE = 1046;
+    private final static int PICK_PHOTO_CODE = 1046;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 23;
 
     private File photoFile;
