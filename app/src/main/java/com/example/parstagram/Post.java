@@ -20,6 +20,7 @@ public class Post extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_LIKED_BY = "likedBy";
+    public static final String KEY_COMMENTS = "comments";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -65,6 +66,23 @@ public class Post extends ParseObject {
         }
         put(KEY_LIKED_BY, lst);
         return liked;
+    }
+
+    public ArrayList<String> getComments() {
+        ArrayList<String> lst = (ArrayList<String>) get(KEY_COMMENTS);
+        if (lst == null) {
+            return new ArrayList<>();
+        }
+        return lst;
+    }
+
+    public void addComment(ParseUser user, String comment) {
+        ArrayList<String> lst = getComments();
+        if (lst == null) {
+            lst = new ArrayList<>();
+        }
+        lst.add(user.getUsername() + ": " + comment);
+        put(KEY_COMMENTS, lst);
     }
 
 

@@ -7,14 +7,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.parstagram.CommentsAdapter;
 import com.example.parstagram.MainActivity;
 import com.example.parstagram.Post;
 import com.example.parstagram.R;
@@ -24,6 +28,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +41,8 @@ public class DetailsFragment extends Fragment {
     private static final String TAG = "DetailsFragment";
     private FragmentDetailsBinding detailsBinding;
     private Post post;
+    private CommentsAdapter adapter;
+    private ArrayList<String> comments;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -75,6 +83,27 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        comments =  post.getComments();
+
+        Log.i(TAG, "Comments: " + comments.size());
+
+        adapter = new CommentsAdapter(getContext(), comments);
+        detailsBinding.rvComments.setAdapter(adapter);
+        detailsBinding.rvComments.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        detailsBinding.rvComments.setNestedScrollingEnabled(false);
+
+        detailsBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshComments();
+            }
+        });
+        // Configure the refreshing colors
+        detailsBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         bindData();
 
@@ -109,6 +138,26 @@ public class DetailsFragment extends Fragment {
                 });
             }
         });
+
+        detailsBinding.btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comment = detailsBinding.etComment.getText().toString();
+                post.addComment(ParseUser.getCurrentUser(), comment);
+                post.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Issue with sending comment", e);
+                        } else {
+                            detailsBinding.etComment.setText("");
+                            Toast.makeText(getContext(), "Sent!", Toast.LENGTH_SHORT).show();
+                            refreshComments();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void bindData() {
@@ -126,6 +175,12 @@ public class DetailsFragment extends Fragment {
 
         fillLikeView(post.likedBy(ParseUser.getCurrentUser()));
         detailsBinding.tvLikedBy.setText("Liked by " + post.getNumLikes());
+    }
+
+    private void refreshComments() {
+        adapter.clear();
+        adapter.addAll(post.getComments());
+        detailsBinding.swipeContainer.setRefreshing(false);
     }
 
     private void fillLikeView(boolean liked) {

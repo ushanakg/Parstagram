@@ -3,6 +3,7 @@ package com.example.parstagram.fragments;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -121,16 +123,30 @@ public class ProfileFragment extends Fragment {
         profileBinding.rvPosts.addOnScrollListener(scrollListener);
 
         if (user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
-            profileBinding.ivProfile.setOnClickListener(new View.OnClickListener() {
+
+            profileBinding.ivProfile.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View view) {
-                    onPickPhoto(view);
+                public boolean onTouch(View view, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                        // release
+                        profileBinding.ivProfile.clearColorFilter();
+                        onPickPhoto(view);
+                        return false;
+
+                    } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        // pressed
+                        profileBinding.ivProfile.setColorFilter(Color.parseColor("#fccc63"));
+                        return true;
+                    }
+
+                    return false;
                 }
             });
         }
 
         loadProfilePic();
         profileBinding.tvUsername.setText(user.getUsername());
+
 
         profileBinding.pbLoading.setVisibility(ProgressBar.VISIBLE);
         // fill in all the posts

@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/llHolder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/llUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center_vertical"
-            android:id="@+id/llUser">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/ivProfile"
@@ -47,18 +48,20 @@
                 tools:layout_editor_absoluteY="126dp"
                 tools:text="ushanakg" />
         </LinearLayout>
-
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
         <ImageView
             android:id="@+id/ivPhoto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:layout_marginTop="8dp"
-            android:maxHeight="500dp"
             android:scaleType="fitCenter"
             tools:layout_editor_absoluteX="159dp"
             tools:layout_editor_absoluteY="208dp"
             tools:srcCompat="@tools:sample/avatars" />
-
+        </ScrollView>
         <LinearLayout
             android:id="@+id/llIcons"
             android:layout_width="match_parent"
@@ -121,6 +124,53 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             tools:text="4 days ago" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 
-</ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true" >
+        <EditText
+            android:id="@+id/etComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="4"
+            android:ems="10"
+            android:hint="Add a comment"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#4C68D7"
+            android:text="Send"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    </RelativeLayout>
+
