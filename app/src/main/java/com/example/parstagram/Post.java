@@ -1,21 +1,14 @@
 package com.example.parstagram;
 
-import android.content.Context;
-import android.icu.text.RelativeDateTimeFormatter;
-import android.os.Build;
 import android.text.format.DateUtils;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Locale;
 
 @ParseClassName("Post")
@@ -26,6 +19,7 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_LIKED_BY = "likedBy";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -49,6 +43,28 @@ public class Post extends ParseObject {
 
     public void setImage(ParseFile parseFile) {
         put(KEY_IMAGE, parseFile);
+    }
+
+    private ArrayList<String> getLikes() {
+        return (ArrayList<String>) get(KEY_LIKED_BY);
+    }
+
+    // return true if liked and false if disliked
+    public boolean toggleLike(ParseUser user) {
+        boolean liked;
+        ArrayList<String> lst = getLikes();
+        if (likedBy(user)) {
+            lst.remove(user.getUsername());
+            liked = false;
+        } else {
+            if (lst == null) {
+                lst = new ArrayList<>();
+            }
+            lst.add(user.getUsername());
+            liked = true;
+        }
+        put(KEY_LIKED_BY, lst);
+        return liked;
     }
 
 
@@ -76,4 +92,19 @@ public class Post extends ParseObject {
         return DateUtils.getRelativeTimeSpanString (dateMillis, System.currentTimeMillis(),0L).toString();
     }
 
+    public int getNumLikes() {
+        ArrayList<String> lst = getLikes();
+        if (lst == null) {
+            return 0;
+        }
+        return lst.size();
+    }
+
+    public boolean likedBy(ParseUser user) {
+        ArrayList<String> lst = getLikes();
+        if (lst == null) {
+            return false;
+        }
+        return lst.contains(user.getUsername());
+    }
 }

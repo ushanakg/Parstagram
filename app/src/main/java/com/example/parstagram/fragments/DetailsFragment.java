@@ -1,5 +1,6 @@
 package com.example.parstagram.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +20,10 @@ import com.example.parstagram.Post;
 import com.example.parstagram.R;
 import com.example.parstagram.databinding.ActivityMainBinding;
 import com.example.parstagram.databinding.FragmentDetailsBinding;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,17 +76,7 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ParseFile image = post.getImage();
-        if (image != null) {
-            Glide.with(this).load(image.getUrl()).into(detailsBinding.ivPhoto);
-        }
-        ParseFile profile = post.getUser().getParseFile("profilePhoto");
-        if (profile != null) {
-            Glide.with(this).load(profile.getUrl()).transform(new RoundedCorners(90)).into(detailsBinding.ivProfile);
-        }
-        detailsBinding.tvDescription.setText(post.getDescription());
-        detailsBinding.tvUsername.setText(post.getUser().getUsername());
-        detailsBinding.tvTimestamp.setText(post.getDatePosted() + " at " + post.getTimePosted());
+        bindData();
 
         // how to open fragment from fragment
         detailsBinding.llUser.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +92,50 @@ public class DetailsFragment extends Fragment {
                 }
             }
         });
+
+        detailsBinding.ivLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final boolean liked = post.toggleLike(ParseUser.getCurrentUser());
+                post.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "like did not succeed", e);
+                        } else {
+                            fillLikeView(liked);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void bindData() {
+        ParseFile image = post.getImage();
+        if (image != null) {
+            Glide.with(this).load(image.getUrl()).into(detailsBinding.ivPhoto);
+        }
+        ParseFile profile = post.getUser().getParseFile("profilePhoto");
+        if (profile != null) {
+            Glide.with(this).load(profile.getUrl()).transform(new RoundedCorners(90)).into(detailsBinding.ivProfile);
+        }
+        detailsBinding.tvDescription.setText(post.getDescription());
+        detailsBinding.tvUsername.setText(post.getUser().getUsername());
+        detailsBinding.tvTimestamp.setText(post.getDatePosted() + " at " + post.getTimePosted());
+
+        fillLikeView(post.likedBy(ParseUser.getCurrentUser()));
+        detailsBinding.tvLikedBy.setText("Liked by " + post.getNumLikes());
+    }
+
+    private void fillLikeView(boolean liked) {
+        if (liked) {
+            detailsBinding.ivLike.setImageResource(R.drawable.ufi_heart_active);
+            detailsBinding.ivLike.setColorFilter(Color.parseColor("#e95950"));
+        } else {
+            detailsBinding.ivLike.setImageResource(R.drawable.ufi_heart);
+            detailsBinding.ivLike.setColorFilter(Color.parseColor("#000000"));
+        }
     }
 
     @Override public void onDestroyView() {

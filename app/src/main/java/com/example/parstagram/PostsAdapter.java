@@ -1,9 +1,8 @@
 package com.example.parstagram;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram.databinding.ItemPostBinding;
 import com.example.parstagram.fragments.DetailsFragment;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -64,7 +64,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public static final String POST_DETAILS_KEY = "post";
         ItemPostBinding holderBinding;
 
         public ViewHolder(@NonNull ItemPostBinding binding) {
@@ -90,6 +89,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             holderBinding.tvUsername.setText(post.getUser().getUsername());
             holderBinding.tvRelativeTimeAgo.setText(post.getRelativeTimeAgo());
 
+            if (post.likedBy(ParseUser.getCurrentUser())) {
+                holderBinding.ivLike.setImageResource(R.drawable.ufi_heart_active);
+                holderBinding.ivLike.setColorFilter(Color.parseColor("#e95950"));
+            } else {
+                holderBinding.ivLike.setImageResource(R.drawable.ufi_heart);
+                holderBinding.ivLike.setColorFilter(Color.parseColor("#000000"));
+            }
         }
 
         @Override
